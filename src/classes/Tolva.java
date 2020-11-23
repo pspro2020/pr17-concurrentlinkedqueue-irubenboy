@@ -9,9 +9,9 @@ import java.util.concurrent.TimeUnit;
 public class Tolva implements Runnable{
 
     private final ConcurrentLinkedDeque<Plastic> listElements = new ConcurrentLinkedDeque<>();
-    private final int MAX_ELEMENTS = 5;
+    private static final int MAX_ELEMENTS = 5;
     private final Tape tape;
-    private DateTimeFormatter f = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private final DateTimeFormatter f = DateTimeFormatter.ofPattern("HH:mm:ss");
 
 
     public Tolva(Tape tape){
@@ -26,12 +26,12 @@ public class Tolva implements Runnable{
         try {
             dropPlastic();
         } catch (InterruptedException e) {
-            System.out.printf("%s -> %s has been interrupted while dropped plastic", LocalDateTime.now().format(f),
+            System.out.printf("%s -> %s has been interrupted while dropped plastic\n", LocalDateTime.now().format(f),
                     Thread.currentThread().getName());
             return;
         }
 
-        System.out.printf("%s -> %s doesn't have more plastic to drop", LocalDateTime.now().format(f),
+        System.out.printf("%s -> %s doesn't have more plastic to drop\n", LocalDateTime.now().format(f),
                 Thread.currentThread().getName());
     }
 
@@ -39,7 +39,7 @@ public class Tolva implements Runnable{
         Plastic p = listElements.remove();
         TimeUnit.SECONDS.sleep(ThreadLocalRandom.current().nextInt(2)+1);
         tape.add(p);
-        System.out.printf("%s -> %s has dropped the %s", LocalDateTime.now().format(f),
+        System.out.printf("%s -> %s has dropped the %s\n", LocalDateTime.now().format(f),
                 Thread.currentThread().getName(), p.getName());
     }
 }
